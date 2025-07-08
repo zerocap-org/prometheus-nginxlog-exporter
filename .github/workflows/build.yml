@@ -109,9 +109,9 @@ jobs:
           gpg --batch --gen-key <<EOF
           %no-protection
           Key-Type: default
-          Key-Length: 2048
+          Key-Curve: Ed25519
           Subkey-Type: default
-          Subkey-Length: 2048
+          Subkey-Curve: Ed25519
           Name-Real: Github Action
           Name-Email: helmich-bot@helmich.example
           Expire-Date: seconds=120

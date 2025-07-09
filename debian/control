@@ -1,0 +1,12 @@
+Source: prometheus-nginxlog-exporter
+Section: utils
+Priority: optional
+Maintainer: Hamish Coleman <hamish.coleman@zerocap.com>
+Standards-Version: 4.6.0
+Build-Depends:
+ golang,
+
+Package: prometheus-nginxlog-exporter
+Architecture: any
+Depends:
+Description: Export Prometheus metrics from NGINX (or compatible) log files

@@ -1,0 +1,9 @@
+
+# Files generated during the dpkg build process
+.debhelper/
+changelog
+debhelper-build-stamp
+files
+prometheus-nginxlog-exporter/
+*.substvars
+*.debhelper

@@ -17,8 +17,9 @@ install:
 	install -m a=r -p prometheus-nginxlog-exporter.yaml $(ETCDIR)
 
 BUILD_DEP:= \
-	golang \
+	debhelper \
 	devscripts \
+	golang \
 
 .PHONY: build-dep
 build-dep:

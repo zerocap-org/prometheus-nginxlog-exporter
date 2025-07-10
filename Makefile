@@ -24,6 +24,10 @@ BUILD_DEP:= \
 build-dep:
 	sudo apt install $(BUILD_DEP)
 
+prometheus-nginxlog-exporter:
+	CGO_ENABLED=0 \
+	    go build -a -installsuffix cgo -o prometheus-nginxlog-exporter .
+
 DEBEMAIL?=hamish.coleman@zerocap.com
 DEBFULLNAME?="Auto Build"
 export DEBEMAIL

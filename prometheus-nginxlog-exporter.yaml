@@ -1,2 +1,21 @@
 ---
-# FIXME
+# Defaults
+#
+# listen:
+#  port: 4040
+#  address: "10.1.2.3"
+#  metrics_endpoint: "/metrics"
+
+# Add namespace entries for each log file
+# (The format string is just an example, adjust to match your nginx config)
+#
+# namespaces:
+#   - name: example.com
+#     format: '$time_iso8601 $remote_addr $status $request_length $body_bytes_sent $request_time $upstream_response_time "$request" "$http_referer" "$http_user_agent"'
+#     source:
+#       files:
+#         - /var/log/nginx/example.com_access.log
+#     metrics_override:
+#       prefix: "nginx"
+#     namespace_label: "vhost"
+#     histogram_buckets: [.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10]

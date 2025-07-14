@@ -43,6 +43,10 @@ prometheus-nginxlog-exporter:
 		-X github.com/prometheus/common/version.BuildDate=$(BUILD_DATE) \
 	    " \
             -o prometheus-nginxlog-exporter .
+CLEAN_FILES+=prometheus-nginxlog-exporter
+
+clean:
+	rm -f $(CLEAN_FILES)
 
 DEBEMAIL?=hamish.coleman@zerocap.com
 DEBFULLNAME?="Auto Build"

@@ -3,8 +3,10 @@ name: Compile & Test
 on:
   push:
     branches:
+      - main
       - master
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,7 +25,7 @@ jobs:
         run: CGO_ENABLED=0 go build -a -installsuffix cgo -o prometheus-nginxlog-exporter .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: prometheus-nginxlog-exporter
@@ -52,7 +54,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.7"
+          python-version: "3.10.18"
 
       - name: Install Behave
         run: pip install behave requests
@@ -60,7 +62,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: build
@@ -107,9 +109,9 @@ jobs:
           gpg --batch --gen-key <<EOF
           %no-protection
           Key-Type: default
-          Key-Length: 2048
+          Key-Curve: Ed25519
           Subkey-Type: default
-          Subkey-Length: 2048
+          Subkey-Curve: Ed25519
           Name-Real: Github Action
           Name-Email: helmich-bot@helmich.example
           Expire-Date: seconds=120
@@ -123,3 +125,31 @@ jobs:
           args: release --rm-dist --skip-publish --snapshot
         env:
           BUILD_USER: ${{ github.actor }} (via Github Actions)
+
+  package_dpkg:
+    name: Package for Debian/Ubuntu
+    needs: test_acceptance
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fix Checkout
+        run: |
+          git fetch --force --tags
+
+      - name: Install packages needed for build
+        run: |
+          sudo apt-get update
+          make build-dep
+
+      - name: Build
+        run: |
+          make dpkg
+
+      - name: Upload dpkg
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-dpkg
+          path: "*.deb"
